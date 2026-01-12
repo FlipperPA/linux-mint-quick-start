@@ -1,0 +1,1 @@
+# linux-mint-quick-start
