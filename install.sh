@@ -70,7 +70,6 @@ sudo apt autoclean
 
 echo "Installing ONLYOFFICE..."
 echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ttf-mscorefonts-installer
 curl -fsSL https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors_amd64.deb -o /tmp/onlyoffice.deb
 sudo apt install -y /tmp/onlyoffice.deb && rm /tmp/onlyoffice.deb
 
