@@ -1,7 +1,7 @@
 
 #!/bin/bash
 echo "Installing Brave..."
-sudo apt -y install curl
+sudo apt -y install ca-certificates curl gnupg
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 sudo curl -fsSLo /etc/apt/sources.list.d/brave-browser-release.sources https://brave-browser-apt-release.s3.brave.com/brave-browser.sources
 sudo apt -y update
@@ -31,6 +31,7 @@ sudo tee /etc/brave/policies/managed/brave-hardening.json >/dev/null <<'JSON'
   "DefaultBrowserSettingEnabled": false
 }
 JSON
+echo "Setting Brave as default browser..."
 xdg-settings set default-web-browser brave-browser.desktop
 xdg-mime default brave-browser.desktop x-scheme-handler/http
 xdg-mime default brave-browser.desktop x-scheme-handler/https
@@ -39,20 +40,28 @@ python3 - <<'PY'
 import json, pathlib
 
 path = pathlib.Path.home() / ".config/cinnamon/spices/grouped-window-list@cinnamon.org/2.json"
-
 data = json.loads(path.read_text())
-apps = data.get("pinned-apps", [])
 
-apps = [a for a in apps if a != "firefox.desktop"]
-if "brave-browser.desktop" not in apps:
-    apps.insert(0, "brave-browser.desktop")
+pins = data.get("pinned-apps", {}).get("value", [])
+# Remove firefox
+pins = [p for p in pins if p != "firefox.desktop"]
+# Add brave (prefer near the front, after nemo if present)
+if "brave-browser.desktop" not in pins:
+    if "nemo.desktop" in pins:
+        i = pins.index("nemo.desktop") + 1
+        pins.insert(i, "brave-browser.desktop")
+    else:
+        pins.insert(0, "brave-browser.desktop")
 
-data["pinned-apps"] = apps
-path.write_text(json.dumps(data, indent=2))
+data["pinned-apps"]["value"] = pins
+
+path.write_text(json.dumps(data, indent=4))
+print("Updated pinned-apps.value:", pins)
 PY
 pkill -f brave-browser || true
 pkill -f brave || true
 brave-browser &
+cinnamon --replace &
 
 echo "Uninstalling LibreOffice..."
 sudo apt purge 'libreoffice*' -y
@@ -61,11 +70,11 @@ sudo apt autoclean
 
 echo "Installing OnlyOffice..."
 sudo mkdir -p ~/.gnupg && chmod 700 ~/.gnupg
-sudo gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys CB2DE8E5
-sudo gpg --export --armor CB2DE8E5 | sudo tee /usr/share/keyrings/onlyoffice.gpg > /dev/null
-echo "deb [signed-by=/usr/share/keyrings/onlyoffice.gpg] https://download.onlyoffice.com/repo/debian squeeze main" | sudo tee /etc/apt/sources.list.d/onlyoffice.list
-sudo apt update
-sudo apt install onlyoffice-desktopeditors -y
+curl -fsSL https://download.onlyoffice.com/repo/onlyoffice.key | sudo gpg --dearmor -o /usr/share/keyrings/onlyoffice-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/onlyoffice-archive-keyring.gpg] https://download.onlyoffice.com/repo/debian squeeze main" | sudo tee /etc/apt/sources.list.d/onlyoffice.list > /dev/null
+download.onlyoffice.com/repo/debian squeeze main" | sudo tee /etc/apt/sources.list.d/onlyoffice.list
+sudo apt -y update
+sudo apt -y install onlyoffice-desktopeditors
 
 sudo xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.openxmlformats-officedocument.wordprocessingml.document
 sudo xdg-mime default onlyoffice-desktopeditors.desktop application/msword
