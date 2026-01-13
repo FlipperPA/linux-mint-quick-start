@@ -70,7 +70,7 @@ sudo apt autoclean
 
 echo "Installing ONLYOFFICE..."
 sudo mkdir -p /usr/share/keyrings
-curl -fsSL https://download.onlyoffice.com/repo/onlyoffice.key | sudo gpg --dearmor -o /usr/share/keyrings/onlyoffice-archive-keyring.gpg
+curl -fsSL https://download.onlyoffice.com/repo/onlyoffice.key | sudo gpg --dearmor --yes --output /usr/share/keyrings/onlyoffice-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/onlyoffice-archive-keyring.gpg] https://download.onlyoffice.com/repo/debian squeeze main" | sudo tee /etc/apt/sources.list.d/onlyoffice.list > /dev/null
 sudo apt-get update -y
 sudo apt-get install -y onlyoffice-desktopeditors
