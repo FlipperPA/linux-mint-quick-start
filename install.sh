@@ -68,13 +68,12 @@ sudo apt purge 'libreoffice*' -y
 sudo apt autoremove --purge -y
 sudo apt autoclean
 
-echo "Installing OnlyOffice..."
-sudo mkdir -p ~/.gnupg && chmod 700 ~/.gnupg
+echo "Installing ONLYOFFICE..."
+sudo mkdir -p /usr/share/keyrings
 curl -fsSL https://download.onlyoffice.com/repo/onlyoffice.key | sudo gpg --dearmor -o /usr/share/keyrings/onlyoffice-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/onlyoffice-archive-keyring.gpg] https://download.onlyoffice.com/repo/debian squeeze main" | sudo tee /etc/apt/sources.list.d/onlyoffice.list > /dev/null
-download.onlyoffice.com/repo/debian squeeze main" | sudo tee /etc/apt/sources.list.d/onlyoffice.list
-sudo apt -y update
-sudo apt -y install onlyoffice-desktopeditors
+sudo apt-get update -y
+sudo apt-get install -y onlyoffice-desktopeditors
 
 sudo xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.openxmlformats-officedocument.wordprocessingml.document
 sudo xdg-mime default onlyoffice-desktopeditors.desktop application/msword
