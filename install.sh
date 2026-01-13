@@ -7,7 +7,7 @@ sudo curl -fsSLo /etc/apt/sources.list.d/brave-browser-release.sources https://b
 sudo apt -y update
 sudo apt -y install brave-browser
 
-echo "Configuring Brave policies (managed)..."
+echo "Updating Brave managed policies (hard lock)..."
 sudo mkdir -p /etc/brave/policies/managed
 sudo tee /etc/brave/policies/managed/brave-hardening.json >/dev/null <<'JSON'
 {
@@ -16,12 +16,25 @@ sudo tee /etc/brave/policies/managed/brave-hardening.json >/dev/null <<'JSON'
   "BraveVPNDisabled": 1,
   "BraveSidebarEnabled": false,
   "BraveRewardsDisabled": true,
+  "BraveTalkDisabled": true,
 
   "BraveP3AEnabled": false,
   "MetricsReportingEnabled": false,
-  "CrashReportingEnabled": false
+  "CrashReportingEnabled": false,
+
+  "ImportOnFirstRun": false,
+  "ImportBookmarks": false,
+  "ImportHistory": false,
+  "ImportSavedPasswords": false,
+  "ImportSearchEngine": false,
+
+  "DefaultBrowserSettingEnabled": false
 }
 JSON
+xdg-settings set default-web-browser brave-browser.desktop
+xdg-mime default brave-browser.desktop x-scheme-handler/http
+xdg-mime default brave-browser.desktop x-scheme-handler/https
+xdg-mime default brave-browser.desktop text/html
 pkill -f brave-browser || true
 pkill -f brave || true
 brave-browser &
