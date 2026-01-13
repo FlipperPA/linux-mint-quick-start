@@ -35,6 +35,8 @@ xdg-settings set default-web-browser brave-browser.desktop
 xdg-mime default brave-browser.desktop x-scheme-handler/http
 xdg-mime default brave-browser.desktop x-scheme-handler/https
 xdg-mime default brave-browser.desktop text/html
+gsettings set org.cinnamon favorite-apps "$(gsettings get org.cinnamon favorite-apps | sed "s/]$/, 'brave-browser.desktop']/")"
+gsettings set org.cinnamon favorite-apps "$(gsettings get org.cinnamon favorite-apps | sed "s/'firefox.desktop', //; s/, 'firefox.desktop'//; s/'firefox.desktop'//")"
 pkill -f brave-browser || true
 pkill -f brave || true
 brave-browser &
