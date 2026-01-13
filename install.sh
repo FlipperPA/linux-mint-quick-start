@@ -87,3 +87,16 @@ xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.oasis.opendoc
 
 xdg-mime default onlyoffice-desktopeditors.desktop text/rtf
 xdg-mime default onlyoffice-desktopeditors.desktop application/pdf
+
+echo "Installing VLC..."
+sudo apt -y install vlc
+xdg-mime default vlc.desktop video/mp4
+xdg-mime default vlc.desktop video/x-matroska
+xdg-mime default vlc.desktop video/x-msvideo
+xdg-mime default vlc.desktop video/mpeg
+xdg-mime default vlc.desktop audio/mpeg
+xdg-mime default vlc.desktop audio/mp4
+xdg-mime default vlc.desktop audio/x-wav
+xdg-mime default vlc.desktop audio/x-flac
+
+echo "Installation complete."
