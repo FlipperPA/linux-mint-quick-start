@@ -6,20 +6,24 @@ sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://b
 sudo curl -fsSLo /etc/apt/sources.list.d/brave-browser-release.sources https://brave-browser-apt-release.s3.brave.com/brave-browser.sources
 sudo apt -y update
 sudo apt -y install brave-browser
-echo "Configurating Brave policies to disable crap..."
+
+echo "Configuring Brave policies (managed)..."
 sudo mkdir -p /etc/brave/policies/managed
-sudo sh -c "cat >> /etc/brave/policies/managed/brave-hardening.json <<EOT
+sudo tee /etc/brave/policies/managed/brave-hardening.json >/dev/null <<'JSON'
 {
   "BraveWalletDisabled": true,
   "BraveAIChatEnabled": false,
-  "BraveVPNDisabled": true,
-
+  "BraveVPNDisabled": 1,
   "BraveSidebarEnabled": false,
+  "BraveRewardsDisabled": true,
 
-  "BraveRewardsDisabled": true
+  "BraveP3AEnabled": false,
+  "MetricsReportingEnabled": false,
+  "CrashReportingEnabled": false
 }
-EOT"
-pkill brave
+JSON
+pkill -f brave-browser || true
+pkill -f brave || true
 brave-browser &
 
 echo "Uninstalling LibreOffice..."
