@@ -35,8 +35,21 @@ xdg-settings set default-web-browser brave-browser.desktop
 xdg-mime default brave-browser.desktop x-scheme-handler/http
 xdg-mime default brave-browser.desktop x-scheme-handler/https
 xdg-mime default brave-browser.desktop text/html
-gsettings set org.cinnamon favorite-apps "$(gsettings get org.cinnamon favorite-apps | sed "s/]$/, 'brave-browser.desktop']/")"
-gsettings set org.cinnamon favorite-apps "$(gsettings get org.cinnamon favorite-apps | sed "s/'firefox.desktop', //; s/, 'firefox.desktop'//; s/'firefox.desktop'//")"
+python3 - <<'PY'
+import json, pathlib
+
+path = pathlib.Path.home() / ".config/cinnamon/spices/grouped-window-list@cinnamon.org/2.json"
+
+data = json.loads(path.read_text())
+apps = data.get("pinned-apps", [])
+
+apps = [a for a in apps if a != "firefox.desktop"]
+if "brave-browser.desktop" not in apps:
+    apps.insert(0, "brave-browser.desktop")
+
+data["pinned-apps"] = apps
+path.write_text(json.dumps(data, indent=2))
+PY
 pkill -f brave-browser || true
 pkill -f brave || true
 brave-browser &
