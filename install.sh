@@ -69,20 +69,22 @@ sudo apt autoremove --purge -y
 sudo apt autoclean
 
 echo "Installing ONLYOFFICE..."
+echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections
+sudo DEBIAN_FRONTEND=noninteractive apt-get install -y ttf-mscorefonts-installer
 curl -fsSL https://github.com/ONLYOFFICE/DesktopEditors/releases/latest/download/onlyoffice-desktopeditors_amd64.deb -o /tmp/onlyoffice.deb
 sudo apt install -y /tmp/onlyoffice.deb && rm /tmp/onlyoffice.deb
 
-sudo xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.openxmlformats-officedocument.wordprocessingml.document
-sudo xdg-mime default onlyoffice-desktopeditors.desktop application/msword
-sudo xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.oasis.opendocument.text
+xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.openxmlformats-officedocument.wordprocessingml.document
+xdg-mime default onlyoffice-desktopeditors.desktop application/msword
+xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.oasis.opendocument.text
 
-sudo xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-sudo xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.ms-excel
-sudo xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.oasis.opendocument.spreadsheet
+xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.ms-excel
+xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.oasis.opendocument.spreadsheet
 
-sudo xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.openxmlformats-officedocument.presentationml.presentation
-sudo xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.ms-powerpoint
-sudo xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.oasis.opendocument.presentation
+xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.openxmlformats-officedocument.presentationml.presentation
+xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.ms-powerpoint
+xdg-mime default onlyoffice-desktopeditors.desktop application/vnd.oasis.opendocument.presentation
 
-sudo xdg-mime default onlyoffice-desktopeditors.desktop text/rtf
-sudo xdg-mime default onlyoffice-desktopeditors.desktop application/pdf
+xdg-mime default onlyoffice-desktopeditors.desktop text/rtf
+xdg-mime default onlyoffice-desktopeditors.desktop application/pdf
