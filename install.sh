@@ -1,11 +1,11 @@
 
 #!/bin/bash
 echo "Installing Brave..."
-sudo apt install curl
+sudo apt -y install curl
 sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 sudo curl -fsSLo /etc/apt/sources.list.d/brave-browser-release.sources https://brave-browser-apt-release.s3.brave.com/brave-browser.sources
-sudo apt update
-sudo apt install brave-browser
+sudo apt -y update
+sudo apt -y install brave-browser
 echo "Configurating Brave policies to disable crap..."
 sudo mkdir -p /etc/brave/policies/managed
 sudo sh -c "cat >> /etc/brave/policies/managed/brave-hardening.json <<EOT
