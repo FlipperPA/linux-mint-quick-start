@@ -93,10 +93,20 @@ sudo apt -y install vlc
 xdg-mime default vlc.desktop video/mp4
 xdg-mime default vlc.desktop video/x-matroska
 xdg-mime default vlc.desktop video/x-msvideo
+xdg-mime default vlc.desktop video/x-msvideo
+xdg-mime default vlc.desktop video/quicktime
+xdg-mime default vlc.desktop video/x-ms-wmv
+xdg-mime default vlc.desktop video/webm
+xdg-mime default vlc.desktop video/ogg
+xdg-mime default vlc.desktop video/3gpp
+xdg-mime default vlc.desktop video/3gpp2
 xdg-mime default vlc.desktop video/mpeg
 xdg-mime default vlc.desktop audio/mpeg
 xdg-mime default vlc.desktop audio/mp4
 xdg-mime default vlc.desktop audio/x-wav
 xdg-mime default vlc.desktop audio/x-flac
+xdg-mime default vlc.desktop audio/ogg
+xdg-mime default vlc.desktop audio/x-ms-wma
+xdg-mime default vlc.desktop audio/aac
 
 echo "Installation complete."
